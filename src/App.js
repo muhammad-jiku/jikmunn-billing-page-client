@@ -4,6 +4,7 @@ import LogIn from './components/Auth/LogIn';
 import Registration from './components/Auth/Registration';
 import Home from './components/Home/Home';
 import Navbar from './components/Shared/Navbar';
+import NotFound from './components/Shared/NotFound';
 
 function App() {
   const location = useLocation();
@@ -14,6 +15,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LogIn />} />
         <Route path="/registration" element={<Registration />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   );
