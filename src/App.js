@@ -1,12 +1,16 @@
+import { Route, Routes, useLocation } from 'react-router-dom';
 import './App.css';
+import Home from './components/Home/Home';
 import Navbar from './components/Shared/Navbar';
 
 function App() {
+  const location = useLocation();
   return (
     <div className="App">
       <Navbar />
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
-      <button className="btn btn-primary">Button</button>
+      <Routes location={location} key={location?.pathname}>
+        <Route path="/" element={<Home />} />
+      </Routes>
     </div>
   );
 }
