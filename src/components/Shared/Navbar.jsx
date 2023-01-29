@@ -7,7 +7,7 @@ const Navbar = () => {
       <div className="flex-1">
         <ul className="btn btn-ghost normal-case text-xl">
           <li>
-            <a href="/">Jikmunn Billing</a>
+            <Link to="/">Jikmunn Billing</Link>
           </li>
         </ul>
       </div>
@@ -18,10 +18,10 @@ const Navbar = () => {
             <p>Total Cost: 0</p>{' '}
           </li>
           <li>
-            <a href="/login">Login</a>
+            <Link to="/login">Login</Link>
           </li>
           <li>
-            <a href="/registration">Registration</a>
+            <Link to="/registration">Registration</Link>
           </li>
         </ul>
       </div>
