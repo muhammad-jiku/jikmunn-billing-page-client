@@ -2,7 +2,7 @@ import React from 'react';
 
 const Navbar = () => {
   return (
-    <div className="navbar bg-slate-500">
+    <div className="navbar bg-gray-400">
       <div className="flex-1">
         <p className="btn btn-ghost normal-case text-xl">Jikmunn Billing</p>
       </div>
