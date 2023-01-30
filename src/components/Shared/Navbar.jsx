@@ -1,14 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   const navigate = useNavigate();
   const user = localStorage?.getItem('accessToken');
 
-  useEffect(() => {
-    if (user) {
-    }
-  }, [user]);
+  const [totalCountData, setTotalCountData] = useState([]);
+
+  // useEffect(() => {
+  //       fetch(`http://localhost:5000/api/billing-lists`)
+  //         .then((response) => response.json())
+  //         .then((data) => {
+  //           setTotalCountData(data?.data);
+  //         });
+  // }, [totalCountData]);
 
   const signingOut = async () => {
     await localStorage?.removeItem('accessToken');

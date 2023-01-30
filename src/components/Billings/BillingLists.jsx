@@ -34,10 +34,10 @@ const BillingLists = () => {
     )
       .then((response) => response.json())
       .then((data) => {
-        setSearchBills(data?.data);
+        setBills(data?.data);
         setNumberOfPages(data?.totalPages);
       });
-  }, [searchBills, searchValue, pageNumber]);
+  }, [searchValue, pageNumber]);
 
   const gotoPrevious = () => {
     setPageNumber(Math.max(0, parseInt(pageNumber) - 1));
@@ -53,30 +53,10 @@ const BillingLists = () => {
     setSearchValue(e.target.value);
   };
 
-  // const handleSearch = (e) => {
-  //   e.preventDefault();
-  //   const searchText = e.target.search.value;
-  //   console.log(searchText);
-  //   console.log(searchValue);
-  //   if (searchValue === '') {
-  //     toast('please write something');
-  //     return;
-  //   } else {
-  //     fetch(
-  //       `http://localhost:5000/api/search-billing-list/${searchValue}?page=${pageNumber}`
-  //     )
-  //       .then((res) => res.json())
-  //       .then((data) => {
-  //         setBills(data?.data);
-  //         setNumberOfPages(data?.totalPages);
-  //       });
-  //   }
-  // };
-
-  console.log(searchBills);
+  // console.log(searchBills);
   return (
     <div>
-      {(bills?.length || searchBills)?.length === 0 ? (
+      {(bills?.length || searchBills?.length) === 0 ? (
         <h1 className="text-center text-3xl text-red-500 my-6">Loading....</h1>
       ) : (
         <>
@@ -121,19 +101,7 @@ const BillingLists = () => {
                 </tr>
               </thead>
               <tbody>
-                {searchBills ? (
-                  <>
-                    {searchBills?.map((bill, idx) => (
-                      <BillRow
-                        key={idx}
-                        bill={bill}
-                        user={user}
-                        setUpdateBillModal={setUpdateBillModal}
-                        setConfirmDltBillModal={setConfirmDltBillModal}
-                      />
-                    ))}
-                  </>
-                ) : (
+                {bills ? (
                   <>
                     {bills?.map((bill, idx) => (
                       <BillRow
@@ -145,6 +113,8 @@ const BillingLists = () => {
                       />
                     ))}
                   </>
+                ) : (
+                  <></>
                 )}
               </tbody>
             </table>
