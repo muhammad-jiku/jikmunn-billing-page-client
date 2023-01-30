@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
+import { toast } from 'react-toastify';
 import BillRow from './BillRow';
+import SearchBilling from './SearchBilling';
 
 const BillingLists = () => {
   const [bills, setBills] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
   const [numberOfPages, setNumberOfPages] = useState(1);
+  const [searchValue, setSearchValue] = useState('');
 
   const pages = new Array(numberOfPages).fill(null).map((v, i) => i);
 
@@ -18,6 +21,17 @@ const BillingLists = () => {
       });
   }, [pageNumber]);
 
+  useEffect(() => {
+    fetch(
+      `http://localhost:5000/api/search-billing-list/${searchValue}?page=${pageNumber}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setBills(data?.data);
+        setNumberOfPages(data?.totalPages);
+      });
+  }, [searchValue, pageNumber]);
+
   const gotoPrevious = () => {
     setPageNumber(Math.max(0, parseInt(pageNumber) - 1));
   };
@@ -26,6 +40,30 @@ const BillingLists = () => {
     setPageNumber(
       Math.min(parseInt(numberOfPages) - 1, parseInt(pageNumber) + 1)
     );
+  };
+
+  const handleSearchInput = (e) => {
+    setSearchValue(e.target.value);
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const searchText = e.target.search.value;
+    console.log(searchText);
+    console.log(searchValue);
+    if (searchValue === '') {
+      toast('please write something');
+      return;
+    } else {
+      fetch(
+        `http://localhost:5000/api/search-billing-list/${searchValue}?page=${pageNumber}`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          setBills(data?.data);
+          setNumberOfPages(data?.totalPages);
+        });
+    }
   };
 
   return (
@@ -37,6 +75,10 @@ const BillingLists = () => {
       ) : (
         <>
           <div className="overflow-x-auto w-full p-8">
+            <SearchBilling
+              handleSearchInput={handleSearchInput}
+              handleSearch={handleSearch}
+            />
             <table className="table w-full">
               <thead>
                 <tr>
