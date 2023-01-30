@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const LogIn = () => {
+  const [signInToken, setSignInToken] = useState('');
+
   const {
     register,
     formState: { errors },
     handleSubmit,
     watch,
+    reset,
   } = useForm();
 
   const location = useLocation();
@@ -16,10 +20,53 @@ const LogIn = () => {
   let errorMessage;
   let from = location.state?.from?.pathname || '/';
 
-  const onSubmit = () => {
+  useEffect(() => {
+    if (signInToken) {
+      navigate(from, { replace: true });
+    }
+  }, [signInToken, navigate, from]);
+
+  const onSubmit = async () => {
     const email = watch('email');
     const password = watch('password');
-    console.log(email, password);
+
+    const oldUser = {
+      email: email,
+      password: password,
+    };
+
+    // console.log(oldUser);
+
+    // sign in method
+    await fetch(`http://localhost:5000/api/login`, {
+      method: 'POST',
+      headers: {
+        // authorization: `Bearer ${localStorage?.getItem('accessToken')}`,
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify(oldUser),
+    })
+      .then((res) => {
+        // console.log('res ', res);
+        return res.json();
+      })
+      .then((data) => {
+        if (data) {
+          // console.log('data inside user token ', data);
+          const accessToken = data?.accessToken;
+          localStorage?.setItem('accessToken', accessToken);
+          setSignInToken(accessToken);
+
+          toast.success(data?.message);
+          reset();
+        } else {
+          toast.error('Something went wrong');
+        }
+      })
+      .catch((err) => {
+        // console.log(err)
+        toast.error(err.message);
+      });
   };
 
   return (

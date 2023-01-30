@@ -1,26 +1,75 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Registration = () => {
+  const [signUpToken, setSignUpToken] = useState('');
+
   const {
     register,
     formState: { errors },
     handleSubmit,
     watch,
+    reset,
   } = useForm();
 
   const location = useLocation();
   const navigate = useNavigate();
 
   let errorMessage;
+
   let from = location.state?.from?.pathname || '/';
 
-  const onSubmit = () => {
-    const displayName = watch('displayName').toUpperCase();
+  useEffect(() => {
+    if (signUpToken) {
+      navigate(from, { replace: true });
+    }
+  }, [signUpToken, navigate, from]);
+
+  const onSubmit = async () => {
+    const name = watch('name').toUpperCase();
     const email = watch('email');
     const password = watch('password');
-    console.log(displayName, email, password);
+
+    const newUser = {
+      name: name,
+      email: email,
+      password: password,
+    };
+
+    // console.log(newUser);
+
+    // sign up method
+    await fetch(`http://localhost:5000/api/auth/sign-up`, {
+      method: 'POST',
+      headers: {
+        // authorization: `Bearer ${localStorage?.getItem('accessToken')}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newUser),
+    })
+      .then((res) => {
+        // console.log('res ', res);
+        return res.json();
+      })
+      .then((data) => {
+        if (data) {
+          // console.log('data inside user token ', data);
+          const accessToken = data?.accessToken;
+          localStorage?.setItem('accessToken', accessToken);
+          setSignUpToken(accessToken);
+
+          toast.success(data?.message);
+          reset();
+        } else {
+          toast.error('Something went wrong!');
+        }
+      })
+      .catch((err) => {
+        // console.log(err)
+        toast.error(err.message);
+      });
   };
 
   return (
@@ -44,17 +93,17 @@ const Registration = () => {
                 </label>
                 <input
                   type="text"
-                  placeholder="Name"
+                  placeholder="Full Name"
                   className="input input-bordered input-primary"
-                  {...register('displayName', {
+                  {...register('name', {
                     required: {
                       value: true,
-                      message: 'Name is required',
+                      message: 'Full Name is required',
                     },
-                    maxLength: {
-                      value: 20,
-                      message: 'Name can not be more than 20 letters',
-                    },
+                    // maxLength: {
+                    //   value: 20,
+                    //   message: 'Name can not be more than 20 letters',
+                    // },
                   })}
                   style={{ backgroundColor: 'white' }}
                 />
@@ -62,9 +111,9 @@ const Registration = () => {
                   {errors?.displayName?.type === 'required' && (
                     <span>{errors?.displayName?.message}</span>
                   )}
-                  {errors?.displayName?.type === 'maxLength' && (
+                  {/* {errors?.displayName?.type === 'maxLength' && (
                     <span>{errors?.displayName?.message}</span>
-                  )}
+                  )} */}
                 </p>
               </div>
 
