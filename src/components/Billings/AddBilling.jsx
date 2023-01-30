@@ -72,7 +72,7 @@ const AddBilling = ({ setAddBillModal }) => {
             <div className="form-control mb-4">
               <input
                 type="text"
-                // placeholder="Name"
+                placeholder="Full Name"
                 // defaultValue={user?.name}
                 //   value={user?.name}
                 className="input input-bordered input-primary"
@@ -106,7 +106,7 @@ const AddBilling = ({ setAddBillModal }) => {
               </label> */}
               <input
                 type="email"
-                // placeholder="email"
+                placeholder="Email"
                 // defaultValue={user?.email}
                 //   value={user?.email}
                 className="input input-bordered input-primary"
@@ -150,6 +150,10 @@ const AddBilling = ({ setAddBillModal }) => {
                     value: true,
                     message: 'Phone Number is required',
                   },
+                  minLength: {
+                    value: 11,
+                    message: 'Phone Number can not be less than 11 letters',
+                  },
                   maxLength: {
                     value: 11,
                     message: 'Phone Number can not be more than 11 letters',
@@ -159,6 +163,9 @@ const AddBilling = ({ setAddBillModal }) => {
               />
               <p className="text-red-500 font-semibold">
                 {errors.phone?.type === 'required' && (
+                  <span>{errors?.phone?.message}</span>
+                )}
+                {errors?.phone?.type === 'minLength' && (
                   <span>{errors?.phone?.message}</span>
                 )}
                 {errors?.phone?.type === 'maxLength' && (
@@ -174,14 +181,14 @@ const AddBilling = ({ setAddBillModal }) => {
                 </span>
               </label> */}
               <input
-                type="number"
-                // placeholder="paidAmount"
+                type="text"
+                placeholder="Amount to Pay"
                 //   defaultValue={minpaidAmount}
                 className="input input-bordered input-primary"
                 {...register('paidAmount', {
                   required: {
                     value: true,
-                    message: 'paidAmount is required',
+                    message: 'Amount is required',
                   },
                   // min: {
                   //   value: minpaidAmount,

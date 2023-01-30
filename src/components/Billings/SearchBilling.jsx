@@ -46,8 +46,8 @@ const SearchBilling = ({ handleSearchInput, handleSearch }) => {
         </div>
       </div>
       <div class=" gap-2">
-        <button
-          className="btn btn-primary"
+        <label
+          htmlFor="add-new-bill-modal"
           onClick={() =>
             setAddBillModal({
               name: 'name',
@@ -56,10 +56,10 @@ const SearchBilling = ({ handleSearchInput, handleSearch }) => {
               paidAmount: 'paidAmount',
             })
           }
+          className="btn btn-primary my-6 modal-button"
         >
-          {' '}
-          Add New billing{' '}
-        </button>
+          Add New billing
+        </label>
       </div>
       {addBillModal && <AddBilling setAddBillModal={setAddBillModal} />}
     </div>
