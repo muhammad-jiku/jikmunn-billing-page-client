@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
+import AddBilling from './AddBilling';
 
 const SearchBilling = ({ handleSearchInput, handleSearch }) => {
+  const [addBillModal, setAddBillModal] = useState(null);
+
   return (
     <div class="bg-gray-400 text-white my-4 p-2 flex flex-row items-center justify-around">
       <div class="flex flex-row items-center justify-around">
@@ -43,8 +46,22 @@ const SearchBilling = ({ handleSearchInput, handleSearch }) => {
         </div>
       </div>
       <div class=" gap-2">
-        <button className="btn btn-primary"> Add New billing </button>
+        <button
+          className="btn btn-primary"
+          onClick={() =>
+            setAddBillModal({
+              name: 'name',
+              email: 'email',
+              phone: 'phone',
+              paidAmount: 'paidAmount',
+            })
+          }
+        >
+          {' '}
+          Add New billing{' '}
+        </button>
       </div>
+      {addBillModal && <AddBilling setAddBillModal={setAddBillModal} />}
     </div>
   );
 };

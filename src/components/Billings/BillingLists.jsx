@@ -133,13 +133,6 @@ const BillingLists = () => {
               </button>
             </div>
           </div>{' '}
-          {/* {confirmDeleteAccessoryModal && (
-           <DeleteCarAccessory
-             refetch={refetch}
-             confirmDeleteAccessoryModal={confirmDeleteAccessoryModal}
-             setConfirmDeleteAccessoryModal={setConfirmDeleteAccessoryModal}
-           />
-         )} */}
         </>
       )}
     </div>
