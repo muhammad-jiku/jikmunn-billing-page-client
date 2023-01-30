@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const BillRow = ({ bill, setUpdateBillModal }) => {
+const BillRow = ({ bill, setUpdateBillModal, setConfirmDltBillModal }) => {
   const { _id, name, email, phone, paidAmount } = bill;
   return (
     <tr>
@@ -21,7 +21,7 @@ const BillRow = ({ bill, setUpdateBillModal }) => {
         <label
           htmlFor="confirm-modal"
           className="btn btn-error text-white font-bold"
-          //  onClick={() => setConfirmDeleteAccessoryModal(carItem)}
+          onClick={() => setConfirmDltBillModal(bill)}
         >
           Remove
         </label>

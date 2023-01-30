@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { toast } from 'react-toastify';
 import BillRow from './BillRow';
+import DeleteBill from './DeleteBill';
 import SearchBilling from './SearchBilling';
 import UpdateBilling from './UpdateBilling';
 
@@ -11,6 +12,7 @@ const BillingLists = () => {
   const [numberOfPages, setNumberOfPages] = useState(1);
   const [searchValue, setSearchValue] = useState('');
   const [updateBillModal, setUpdateBillModal] = useState(null);
+  const [confirmDltBillModal, setConfirmDltBillModal] = useState(null);
 
   const pages = new Array(numberOfPages).fill(null).map((v, i) => i);
 
@@ -111,6 +113,7 @@ const BillingLists = () => {
                     bill={bill}
                     idx={idx}
                     setUpdateBillModal={setUpdateBillModal}
+                    setConfirmDltBillModal={setConfirmDltBillModal}
                   />
                 ))}
               </tbody>
@@ -137,6 +140,12 @@ const BillingLists = () => {
             <UpdateBilling
               updateBillModal={updateBillModal}
               setUpdateBillModal={setUpdateBillModal}
+            />
+          )}
+          {confirmDltBillModal && (
+            <DeleteBill
+              confirmDltBillModal={confirmDltBillModal}
+              setConfirmDltBillModal={setConfirmDltBillModal}
             />
           )}
         </>
