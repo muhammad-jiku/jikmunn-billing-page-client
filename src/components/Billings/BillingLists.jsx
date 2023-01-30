@@ -36,7 +36,7 @@ const BillingLists = () => {
         setBills(data?.data);
         setNumberOfPages(data?.totalPages);
       });
-  }, [bills, searchValue, pageNumber]);
+  }, [searchValue, pageNumber]);
 
   const gotoPrevious = () => {
     setPageNumber(Math.max(0, parseInt(pageNumber) - 1));
