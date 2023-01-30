@@ -3,9 +3,9 @@ import { ToastContainer } from 'react-toastify';
 import './App.css';
 import LogIn from './components/Auth/LogIn';
 import Registration from './components/Auth/Registration';
-import Home from './components/Home/Home';
 import Navbar from './components/Shared/Navbar';
 import NotFound from './components/Shared/NotFound';
+import HomePage from './pages/HomePage/HomePage';
 
 function App() {
   const location = useLocation();
@@ -13,7 +13,7 @@ function App() {
     <div className="App">
       <Navbar />
       <Routes location={location} key={location?.pathname}>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LogIn />} />
         <Route path="/registration" element={<Registration />} />
         <Route path="*" element={<NotFound />} />
