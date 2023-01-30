@@ -10,6 +10,7 @@ const BillingLists = () => {
   const user = localStorage?.getItem('accessToken');
 
   const [bills, setBills] = useState([]);
+  const [searchBills, setSearchBills] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
   const [numberOfPages, setNumberOfPages] = useState(1);
   const [searchValue, setSearchValue] = useState('');
@@ -33,10 +34,10 @@ const BillingLists = () => {
     )
       .then((response) => response.json())
       .then((data) => {
-        setBills(data?.data);
+        setSearchBills(data?.data);
         setNumberOfPages(data?.totalPages);
       });
-  }, [searchValue, pageNumber]);
+  }, [searchBills, searchValue, pageNumber]);
 
   const gotoPrevious = () => {
     setPageNumber(Math.max(0, parseInt(pageNumber) - 1));
@@ -52,32 +53,31 @@ const BillingLists = () => {
     setSearchValue(e.target.value);
   };
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    const searchText = e.target.search.value;
-    console.log(searchText);
-    console.log(searchValue);
-    if (searchValue === '') {
-      toast('please write something');
-      return;
-    } else {
-      fetch(
-        `http://localhost:5000/api/search-billing-list/${searchValue}?page=${pageNumber}`
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          setBills(data?.data);
-          setNumberOfPages(data?.totalPages);
-        });
-    }
-  };
+  // const handleSearch = (e) => {
+  //   e.preventDefault();
+  //   const searchText = e.target.search.value;
+  //   console.log(searchText);
+  //   console.log(searchValue);
+  //   if (searchValue === '') {
+  //     toast('please write something');
+  //     return;
+  //   } else {
+  //     fetch(
+  //       `http://localhost:5000/api/search-billing-list/${searchValue}?page=${pageNumber}`
+  //     )
+  //       .then((res) => res.json())
+  //       .then((data) => {
+  //         setBills(data?.data);
+  //         setNumberOfPages(data?.totalPages);
+  //       });
+  //   }
+  // };
 
+  console.log(searchBills);
   return (
     <div>
-      {bills?.length === 0 ? (
-        <h1 className="text-center text-3xl text-red-500 my-6">
-          No Bill details is added yet!
-        </h1>
+      {(bills?.length || searchBills)?.length === 0 ? (
+        <h1 className="text-center text-3xl text-red-500 my-6">Loading....</h1>
       ) : (
         <>
           <div className="overflow-x-auto w-full p-8">
@@ -86,7 +86,7 @@ const BillingLists = () => {
                 {' '}
                 <SearchBilling
                   handleSearchInput={handleSearchInput}
-                  handleSearch={handleSearch}
+                  // handleSearch={handleSearch}
                 />
               </>
             ) : null}
@@ -121,15 +121,31 @@ const BillingLists = () => {
                 </tr>
               </thead>
               <tbody>
-                {bills?.map((bill, idx) => (
-                  <BillRow
-                    key={idx}
-                    bill={bill}
-                    user={user}
-                    setUpdateBillModal={setUpdateBillModal}
-                    setConfirmDltBillModal={setConfirmDltBillModal}
-                  />
-                ))}
+                {searchBills ? (
+                  <>
+                    {searchBills?.map((bill, idx) => (
+                      <BillRow
+                        key={idx}
+                        bill={bill}
+                        user={user}
+                        setUpdateBillModal={setUpdateBillModal}
+                        setConfirmDltBillModal={setConfirmDltBillModal}
+                      />
+                    ))}
+                  </>
+                ) : (
+                  <>
+                    {bills?.map((bill, idx) => (
+                      <BillRow
+                        key={idx}
+                        bill={bill}
+                        user={user}
+                        setUpdateBillModal={setUpdateBillModal}
+                        setConfirmDltBillModal={setConfirmDltBillModal}
+                      />
+                    ))}
+                  </>
+                )}
               </tbody>
             </table>
             <div className="btn-group flex justify-center">

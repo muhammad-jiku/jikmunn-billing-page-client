@@ -11,28 +11,25 @@ const SearchBilling = ({ handleSearchInput, handleSearch }) => {
           <p className="text-xl text-left">Billings</p>
         </div>
         <div className="form-control">
-          <form onSubmit={handleSearch}>
-            {/* Search Input Start */}
-
-            {/* <div className="flex justify-end"> */}
-            {/* <input
+          {/* <form onSubmit={handleSearch}> */}
+          {/* Search Input Start */}
+          {/* <div className="flex justify-end"> */}
+          {/* <input
               type="text"
               placeholder="Search"
               className="input input-bordered"
             /> */}
-            <input
-              onBlur={handleSearchInput}
-              // required
-              type="text"
-              name="search"
-              className="shadow-md text-black p-3"
-              on
-              placeholder="Search"
-            ></input>
-
-            {/* Search Input End */}
-
-            <button type="submit" className="btn">
+          <input
+            onChange={handleSearchInput}
+            // required
+            type="text"
+            name="search"
+            className="shadow-md text-black p-3"
+            on
+            placeholder="Search"
+          ></input>
+          {/* Search Input End */}
+          {/* <button type="submit" className="btn">
               <label
               // htmlFor="my-modal-5"
               // className="btn btn-ghost btn-circle hover:bg-transparent hover:shadow-md hover:shadow-neutral "
@@ -42,7 +39,7 @@ const SearchBilling = ({ handleSearchInput, handleSearch }) => {
               </label>
             </button>
             {/* </div> */}
-          </form>
+          {/* </form> */}
         </div>
       </div>
       <div className=" gap-2">
