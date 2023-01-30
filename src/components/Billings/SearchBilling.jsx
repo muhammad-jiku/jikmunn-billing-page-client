@@ -5,12 +5,12 @@ const SearchBilling = ({ handleSearchInput, handleSearch }) => {
   const [addBillModal, setAddBillModal] = useState(null);
 
   return (
-    <div class="bg-gray-400 text-white my-4 p-2 flex flex-row items-center justify-around">
-      <div class="flex flex-row items-center justify-around">
+    <div className="bg-gray-400 text-white my-4 p-2 flex flex-row items-center justify-around">
+      <div className="flex flex-row items-center justify-around">
         <div className="mx-16">
           <p className="text-xl text-left">Billings</p>
         </div>
-        <div class="form-control">
+        <div className="form-control">
           <form onSubmit={handleSearch}>
             {/* Search Input Start */}
 
@@ -18,7 +18,7 @@ const SearchBilling = ({ handleSearchInput, handleSearch }) => {
             {/* <input
               type="text"
               placeholder="Search"
-              class="input input-bordered"
+              className="input input-bordered"
             /> */}
             <input
               onBlur={handleSearchInput}
@@ -45,7 +45,7 @@ const SearchBilling = ({ handleSearchInput, handleSearch }) => {
           </form>
         </div>
       </div>
-      <div class=" gap-2">
+      <div className=" gap-2">
         <label
           htmlFor="add-new-bill-modal"
           onClick={() =>

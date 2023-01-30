@@ -3,12 +3,14 @@ import { useQuery } from 'react-query';
 import { toast } from 'react-toastify';
 import BillRow from './BillRow';
 import SearchBilling from './SearchBilling';
+import UpdateBilling from './UpdateBilling';
 
 const BillingLists = () => {
   const [bills, setBills] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
   const [numberOfPages, setNumberOfPages] = useState(1);
   const [searchValue, setSearchValue] = useState('');
+  const [updateBillModal, setUpdateBillModal] = useState(null);
 
   const pages = new Array(numberOfPages).fill(null).map((v, i) => i);
 
@@ -19,7 +21,7 @@ const BillingLists = () => {
         setBills(data?.data);
         setNumberOfPages(data?.totalPages);
       });
-  }, [pageNumber]);
+  }, [bills, pageNumber]);
 
   useEffect(() => {
     fetch(
@@ -30,7 +32,7 @@ const BillingLists = () => {
         setBills(data?.data);
         setNumberOfPages(data?.totalPages);
       });
-  }, [searchValue, pageNumber]);
+  }, [bills, searchValue, pageNumber]);
 
   const gotoPrevious = () => {
     setPageNumber(Math.max(0, parseInt(pageNumber) - 1));
@@ -108,14 +110,12 @@ const BillingLists = () => {
                     key={idx}
                     bill={bill}
                     idx={idx}
-                    //  setConfirmDeleteAccessoryModal={
-                    //    setConfirmDeleteAccessoryModal
-                    //  }
+                    setUpdateBillModal={setUpdateBillModal}
                   />
                 ))}
               </tbody>
             </table>
-            <div class="btn-group flex justify-center">
+            <div className="btn-group flex justify-center">
               <button className="btn focus:btn-active" onClick={gotoPrevious}>
                 &lt; &lt; &lt;
               </button>
@@ -133,6 +133,12 @@ const BillingLists = () => {
               </button>
             </div>
           </div>{' '}
+          {updateBillModal && (
+            <UpdateBilling
+              updateBillModal={updateBillModal}
+              setUpdateBillModal={setUpdateBillModal}
+            />
+          )}
         </>
       )}
     </div>

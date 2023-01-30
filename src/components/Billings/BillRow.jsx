@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const BillRow = ({ bill }) => {
+const BillRow = ({ bill, setUpdateBillModal }) => {
   const { _id, name, email, phone, paidAmount } = bill;
   return (
     <tr>
@@ -12,9 +12,9 @@ const BillRow = ({ bill }) => {
 
       <th style={{ backgroundColor: 'white' }}>
         <label
-          htmlFor="update-modal"
+          htmlFor="update-bill-modal"
           className="btn btn-primary text-white font-bold"
-          //  onClick={() => setConfirmDeleteAccessoryModal(carItem)}
+          onClick={() => setUpdateBillModal(bill)}
         >
           Edit
         </label>{' '}

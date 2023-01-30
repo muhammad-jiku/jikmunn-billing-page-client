@@ -12,7 +12,7 @@ const Navbar = () => {
         </ul>
       </div>
       <div className="flex-none">
-        <ul class="menu menu-horizontal px-1">
+        <ul className="menu menu-horizontal px-1">
           <li>
             {' '}
             <p>Total Cost: 0</p>{' '}

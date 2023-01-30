@@ -2,7 +2,8 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
-const AddBilling = ({ setAddBillModal }) => {
+const UpdateBilling = ({ updateBillModal, setUpdateBillModal }) => {
+  const { _id, name, email, phone, paidAmount } = updateBillModal;
   const {
     register,
     formState: { errors },
@@ -17,19 +18,19 @@ const AddBilling = ({ setAddBillModal }) => {
     const phone = watch('phone');
     const paidAmount = parseFloat(watch('paidAmount'));
 
-    const newBilling = {
+    const updateBilling = {
       name,
       email,
       phone,
       paidAmount,
     };
 
-    fetch('http://localhost:5000/api/add-billing', {
-      method: 'POST',
+    fetch(`http://localhost:5000/api/update-billing/${_id}`, {
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(newBilling),
+      body: JSON.stringify(updateBilling),
     })
       .then((res) => res.json())
       .then((data) => {
@@ -37,7 +38,7 @@ const AddBilling = ({ setAddBillModal }) => {
         toast.success(data?.message);
 
         // to close the modal
-        setAddBillModal(null);
+        setUpdateBillModal(null);
       })
       .catch((err) => {
         //   console.log(err)
@@ -47,7 +48,7 @@ const AddBilling = ({ setAddBillModal }) => {
 
   return (
     <div>
-      <input type="checkbox" id="add-new-bill-modal" className="modal-toggle" />
+      <input type="checkbox" id="update-bill-modal" className="modal-toggle" />
       <div
         className="modal modal-bottom sm:modal-middle"
         style={{ backgroundColor: '#FFFFFF', color: 'black' }}
@@ -57,7 +58,7 @@ const AddBilling = ({ setAddBillModal }) => {
           style={{ backgroundColor: '#FFFFFF', color: 'black' }}
         >
           <label
-            htmlFor="add-new-bill-modal"
+            htmlFor="update-bill-modal"
             className="btn btn-sm btn-circle absolute right-2 top-2"
             style={{ backgroundColor: '#FFFFFF', color: 'black' }}
           >
@@ -77,7 +78,7 @@ const AddBilling = ({ setAddBillModal }) => {
               <input
                 type="text"
                 placeholder="Full Name"
-                // defaultValue={user?.name}
+                defaultValue={name}
                 //   value={user?.name}
                 className="input input-bordered input-primary"
                 {...register('name', {
@@ -111,7 +112,7 @@ const AddBilling = ({ setAddBillModal }) => {
               <input
                 type="email"
                 placeholder="Email"
-                // defaultValue={user?.email}
+                defaultValue={email}
                 //   value={user?.email}
                 className="input input-bordered input-primary"
                 {...register('email', {
@@ -148,6 +149,7 @@ const AddBilling = ({ setAddBillModal }) => {
               <input
                 type="tel"
                 placeholder="Phone"
+                defaultValue={phone}
                 className="input input-bordered input-primary"
                 {...register('phone', {
                   required: {
@@ -187,17 +189,17 @@ const AddBilling = ({ setAddBillModal }) => {
               <input
                 type="text"
                 placeholder="Amount to Pay"
-                //   defaultValue={minpaidAmount}
+                defaultValue={paidAmount}
                 className="input input-bordered input-primary"
                 {...register('paidAmount', {
                   required: {
                     value: true,
                     message: 'Amount is required',
                   },
-                  // min: {
-                  //   value: minpaidAmount,
-                  //   message: `You can not order below ${minpaidAmount} pcs`,
-                  // },
+                  //   min: {
+                  //     value: 100,
+                  //     message: `Bills can not be count below 100 tk`,
+                  //   },
                   // max: {
                   //   value: avaialablepaidAmount,
                   //   message: `You can not order above ${avaialablepaidAmount} pcs`,
@@ -209,10 +211,10 @@ const AddBilling = ({ setAddBillModal }) => {
                 {errors.paidAmount?.type === 'required' && (
                   <span>{errors?.paidAmount?.message}</span>
                 )}
-                {/* {errors.paidAmount?.type === 'min' && (
+                {/*      {errors.paidAmount?.type === 'min' && (
                     <span>{errors?.paidAmount?.message}</span>
                   )}
-                  {errors.paidAmount?.type === 'max' && (
+                   {errors.paidAmount?.type === 'max' && (
                     <span>{errors?.paidAmount?.message}</span>
                   )} */}
               </p>{' '}
@@ -223,7 +225,7 @@ const AddBilling = ({ setAddBillModal }) => {
               <input
                 type="submit"
                 className="btn btn-primary text-white uppercase"
-                value="Add Bill Details"
+                value="Update Bill Details"
                 //   disabled={errors?.paidAmount}
               />{' '}
             </div>
@@ -234,4 +236,4 @@ const AddBilling = ({ setAddBillModal }) => {
   );
 };
 
-export default AddBilling;
+export default UpdateBilling;
