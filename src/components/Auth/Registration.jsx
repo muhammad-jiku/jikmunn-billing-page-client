@@ -41,7 +41,7 @@ const Registration = () => {
     // console.log(newUser);
 
     // sign up method
-    await fetch(`http://localhost:5000/api/auth/sign-up`, {
+    await fetch(`http://localhost:5000/api/registration`, {
       method: 'POST',
       headers: {
         // authorization: `Bearer ${localStorage?.getItem('accessToken')}`,

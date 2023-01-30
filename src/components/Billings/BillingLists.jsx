@@ -7,6 +7,8 @@ import SearchBilling from './SearchBilling';
 import UpdateBilling from './UpdateBilling';
 
 const BillingLists = () => {
+  const user = localStorage?.getItem('accessToken');
+
   const [bills, setBills] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
   const [numberOfPages, setNumberOfPages] = useState(1);
@@ -79,10 +81,16 @@ const BillingLists = () => {
       ) : (
         <>
           <div className="overflow-x-auto w-full p-8">
-            <SearchBilling
-              handleSearchInput={handleSearchInput}
-              handleSearch={handleSearch}
-            />
+            {user ? (
+              <>
+                {' '}
+                <SearchBilling
+                  handleSearchInput={handleSearchInput}
+                  handleSearch={handleSearch}
+                />
+              </>
+            ) : null}
+
             <table className="table w-full">
               <thead>
                 <tr>
@@ -100,10 +108,16 @@ const BillingLists = () => {
                   </th>
                   <th style={{ backgroundColor: '#F3EEEE', color: 'black' }}>
                     Bill to pay
-                  </th>
-                  <th style={{ backgroundColor: '#F3EEEE', color: 'black' }}>
-                    Actions
-                  </th>
+                  </th>{' '}
+                  {user ? (
+                    <>
+                      <th
+                        style={{ backgroundColor: '#F3EEEE', color: 'black' }}
+                      >
+                        Actions
+                      </th>
+                    </>
+                  ) : null}
                 </tr>
               </thead>
               <tbody>
@@ -111,7 +125,7 @@ const BillingLists = () => {
                   <BillRow
                     key={idx}
                     bill={bill}
-                    idx={idx}
+                    user={user}
                     setUpdateBillModal={setUpdateBillModal}
                     setConfirmDltBillModal={setConfirmDltBillModal}
                   />
